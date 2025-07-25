@@ -160,14 +160,12 @@ E-Mail-Kontext:
                             if (result.status === Office.AsyncResultStatus.Succeeded) {
                                 resolve(true);
                             } else {
-                                console.error("Fehler beim Einfügen der Antwort:", result.error);
-                                reject(result.error);
+                                reject(new Error(result.error.message));
                             }
                         }
                     );
                 } else {
-                    console.error("Weder displayReplyForm noch setSelectedDataAsync verfügbar");
-                    reject(new Error("Keine Möglichkeit, die Antwort einzufügen"));
+                    reject(new Error("Konnte Antwort nicht einfügen: Weder im Lese- noch im Compose-Modus"));
                 }
             } catch (error) {
                 console.error("Fehler beim Einfügen der Antwort:", error);
@@ -177,62 +175,61 @@ E-Mail-Kontext:
     }
 
     /**
-     * Setzt den Stil für die Antwortgenerierung
+     * Öffnet das Antwortformular und generiert eine Antwort
      * 
-     * @param {string} style - Der Stil für die Antwort (z.B. "formal", "friendly", "short", "detailed")
-     * @returns {Object} - Die Optionen für die Antwortgenerierung
+     * @param {Office.MessageItem} item - Die E-Mail, auf die geantwortet werden soll
+     * @param {Object} options - Zusätzliche Optionen
+     * @returns {Promise<boolean>} - true, wenn die Antwort erfolgreich generiert wurde
      */
-    setReplyStyle(style) {
-        const styles = {
-            formal: {
-                promptTemplate: `Generiere eine formelle und professionelle Antwort auf die folgende E-Mail.
-Verwende eine geschäftliche Sprache, sei präzise und halte dich an formelle Anrede- und Grußformeln.
-Berücksichtige dabei den gesamten E-Mail-Verlauf und beziehe dich auf relevante Informationen aus früheren Nachrichten.
-
-E-Mail-Kontext:
-{email_context}`,
-                parameters: {
-                    temperature: 0.5
+    async openReplyFormAndGenerate(item, options = {}) {
+        return new Promise((resolve, reject) => {
+            try {
+                // Prüfen, ob wir im Lese-Modus sind
+                if (Office.context.mailbox.item.displayReplyForm) {
+                    // Antwortformular öffnen
+                    Office.context.mailbox.item.displayReplyForm("Generiere Antwort mit LLM...");
+                    
+                    // Warte einen Moment, bis das Antwortformular geöffnet ist
+                    setTimeout(async () => {
+                        try {
+                            // Generiere die Antwort und füge sie ein
+                            const success = await this.replyToEmail(item, options);
+                            resolve(success);
+                        } catch (error) {
+                            reject(error);
+                        }
+                    }, 1000);
+                } else {
+                    // Wir sind bereits im Compose-Modus, generiere die Antwort direkt
+                    this.replyToEmail(item, options)
+                        .then(resolve)
+                        .catch(reject);
                 }
-            },
-            friendly: {
-                promptTemplate: `Generiere eine freundliche und persönliche Antwort auf die folgende E-Mail.
-Verwende eine warme, zugängliche Sprache und einen konversationellen Ton.
-Berücksichtige dabei den gesamten E-Mail-Verlauf und beziehe dich auf relevante Informationen aus früheren Nachrichten.
-
-E-Mail-Kontext:
-{email_context}`,
-                parameters: {
-                    temperature: 0.7
-                }
-            },
-            short: {
-                promptTemplate: `Generiere eine kurze und prägnante Antwort auf die folgende E-Mail.
-Komme direkt auf den Punkt und halte die Antwort so knapp wie möglich, ohne wichtige Informationen auszulassen.
-Berücksichtige dabei den gesamten E-Mail-Verlauf und beziehe dich auf relevante Informationen aus früheren Nachrichten.
-
-E-Mail-Kontext:
-{email_context}`,
-                parameters: {
-                    temperature: 0.6,
-                    max_tokens: 512
-                }
-            },
-            detailed: {
-                promptTemplate: `Generiere eine detaillierte und ausführliche Antwort auf die folgende E-Mail.
-Gehe auf alle Punkte ein, biete zusätzliche Informationen an und sei gründlich in deiner Antwort.
-Berücksichtige dabei den gesamten E-Mail-Verlauf und beziehe dich auf relevante Informationen aus früheren Nachrichten.
-
-E-Mail-Kontext:
-{email_context}`,
-                parameters: {
-                    temperature: 0.8,
-                    max_tokens: 2048
-                }
+            } catch (error) {
+                console.error("Fehler beim Öffnen des Antwortformulars:", error);
+                reject(error);
             }
-        };
+        });
+    }
 
-        return styles[style] || {};
+    /**
+     * Generiert eine Antwort auf eine E-Mail mit einem bestimmten Stil
+     * 
+     * @param {Office.MessageItem} item - Die E-Mail, auf die geantwortet werden soll
+     * @param {string} style - Der Stil der Antwort (z.B. "formal", "freundlich", "kurz")
+     * @returns {Promise<boolean>} - true, wenn die Antwort erfolgreich generiert wurde
+     */
+    async replyWithStyle(item, style) {
+        const styleInstructions = {
+            formal: "Schreibe eine formelle und professionelle Antwort.",
+            freundlich: "Schreibe eine freundliche und persönliche Antwort.",
+            kurz: "Schreibe eine kurze und prägnante Antwort.",
+            detailliert: "Schreibe eine detaillierte und ausführliche Antwort."
+        };
+        
+        return this.replyToEmail(item, {
+            responseStyle: styleInstructions[style] || styleInstructions.freundlich
+        });
     }
 }
 
