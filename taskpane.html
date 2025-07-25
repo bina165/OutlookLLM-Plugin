@@ -98,9 +98,19 @@
                 </div>
             </div>
 
-            <div id="status-section" class="status-section">
-                <div id="status-message" class="status-message"></div>
-                <div id="error-message" class="error-message"></div>
+            <div id="settings-section" class="settings-section">
+                <h2 class="ms-font-xl">Einstellungen</h2>
+                <div class="setting-item">
+                    <label for="server-url">Triton Server URL:</label>
+                    <input type="text" id="server-url" class="ms-TextField-field" value="http://localhost:8000" />
+                </div>
+                <div class="setting-item">
+                    <label for="model-name">Modellname:</label>
+                    <input type="text" id="model-name" class="ms-TextField-field" value="llm_model" />
+                </div>
+                <button id="save-settings-btn" class="ms-Button">
+                    <span class="ms-Button-label">Einstellungen speichern</span>
+                </button>
             </div>
         </section>
     </div>
