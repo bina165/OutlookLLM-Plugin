@@ -1,0 +1,36 @@
+{
+  "serverConfig": {
+    "url": "http://localhost:8000",
+    "apiVersion": "v2",
+    "timeout": 30000,
+    "maxRetries": 3,
+    "retryDelay": 1000,
+    "debug": false,
+    "apiKey": "",
+    "useTLS": false
+  },
+  "modelConfig": {
+    "name": "llm_model",
+    "defaultParameters": {
+      "max_tokens": 1024,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "stop_sequences": ["\n###", "###", "</answer>"],
+      "return_full_text": false
+    }
+  },
+  "promptTemplates": {
+    "analyze": "Analysiere diese E-Mail und gib mir die wichtigsten Punkte und erforderlichen Aktionen:\n\n{email_context}",
+    "summarize": "Fasse diese E-Mail kurz und prägnant zusammen:\n\n{email_context}",
+    "reply": "Generiere eine professionelle Antwort auf diese E-Mail:\n\n{email_context}",
+    "translate": "Übersetze diese E-Mail ins {target_language}:\n\n{email_context}",
+    "calendar": "Extrahiere Informationen für einen Kalendereintrag aus dieser E-Mail (Datum, Uhrzeit, Teilnehmer, Ort, Thema) und formatiere sie als JSON:\n\n{email_context}",
+    "custom": "{custom_prompt}\n\n{email_context}"
+  },
+  "uiConfig": {
+    "theme": "light",
+    "language": "de",
+    "showDebugInfo": false,
+    "defaultActions": ["analyze", "summarize", "reply", "translate", "calendar", "custom"]
+  }
+}
