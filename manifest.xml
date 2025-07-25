@@ -123,7 +123,7 @@
         <bt:String id="TaskpaneButton.Label" DefaultValue="LLM Assistant" />
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Öffnet den LLM Assistant für Outlook" />
+        <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Öffnet den LLM Assistant für intelligente E-Mail-Verarbeitung" />
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>
