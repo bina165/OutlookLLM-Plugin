@@ -1,0 +1,168 @@
+/* Allgemeine Stile */
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.ms-welcome {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.ms-welcome__header {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #0078d4;
+    color: white;
+    border-radius: 5px 5px 0 0;
+}
+
+.ms-welcome__header h1 {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.ms-welcome__main {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* Abschnitte */
+.context-section, .control-section, .response-section, .settings-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Info-Box für E-Mail-Kontext */
+.info-box {
+    background-color: white;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    padding: 10px;
+    max-height: 150px;
+    overflow-y: auto;
+    margin-top: 10px;
+}
+
+/* Button-Reihen */
+.button-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.button-row .ms-Button {
+    width: 48%;
+    margin-right: 0;
+}
+
+/* Textfeld für Prompt */
+#prompt-input {
+    width: 100%;
+    height: 80px;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+/* Antwortbereich */
+.response-box {
+    background-color: white;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    padding: 10px;
+    min-height: 100px;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    white-space: pre-wrap;
+}
+
+/* Einstellungen */
+.setting-item {
+    margin-bottom: 10px;
+}
+
+.setting-item label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.setting-item input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+}
+
+/* Spinner für Ladeanimation */
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border-left-color: #0078d4;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#loading-indicator {
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .button-row {
+        flex-direction: column;
+    }
+    
+    .button-row .ms-Button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+/* Hover-Effekte */
+.ms-Button:hover {
+    background-color: #f0f0f0;
+}
+
+.ms-Button--primary:hover {
+    background-color: #106ebe;
+}
+
+/* Fokus-Stile */
+.ms-Button:focus {
+    outline: 1px solid #0078d4;
+}
+
+/* Aktive Stile */
+.ms-Button:active {
+    transform: scale(0.98);
+}
