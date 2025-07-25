@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LLM Assistant für Outlook</title>
+
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css" />
+    <link rel="stylesheet" href="css/taskpane.css" />
+
+    <!-- JavaScript -->
+    <script type="text/javascript" src="js/triton-connector.js"></script>
+    <script type="text/javascript" src="js/email-context-extractor.js"></script>
+    <script type="text/javascript" src="js/llm-actions.js"></script>
+    <script type="text/javascript" src="js/direct-reply-handler.js"></script>
+    <script type="text/javascript" src="js/initialize.js"></script>
+</head>
+
+<body class="ms-font-m ms-Fabric">
+    <div id="app" class="ms-welcome">
+        <header class="ms-welcome__header ms-bgColor-neutralLight">
+            <img width="90" height="90" src="assets/logo.png" alt="LLM Assistant" title="LLM Assistant" />
+            <h1 class="ms-font-su">LLM Assistant</h1>
+        </header>
+        <section id="main-content" class="ms-welcome__main">
+            <div id="message-context" class="context-section">
+                <h2 class="ms-font-xl">E-Mail Kontext</h2>
+                <div id="email-info" class="info-box">
+                    <p>Lade E-Mail-Informationen...</p>
+                </div>
+            </div>
+
+            <div id="llm-controls" class="control-section">
+                <h2 class="ms-font-xl">LLM Aktionen</h2>
+                <div class="button-row">
+                    <button id="analyze-btn" class="ms-Button ms-Button--primary">
+                        <span class="ms-Button-label">E-Mail analysieren</span>
+                    </button>
+                    <button id="summarize-btn" class="ms-Button ms-Button--primary">
+                        <span class="ms-Button-label">Zusammenfassen</span>
+                    </button>
+                </div>
+                <div class="button-row">
+                    <button id="reply-btn" class="ms-Button ms-Button--primary">
+                        <span class="ms-Button-label">Antwort generieren</span>
+                    </button>
+                    <button id="direct-reply-btn" class="ms-Button ms-Button--primary">
+                        <span class="ms-Button-label">Direkt antworten</span>
+                    </button>
+                </div>
+                <div class="button-row">
+                    <button id="translate-btn" class="ms-Button ms-Button--primary">
+                        <span class="ms-Button-label">Übersetzen</span>
+                    </button>
+                    <button id="reply-style-btn" class="ms-Button ms-Button--primary">
+                        <span class="ms-Button-label">Antwort-Stil</span>
+                    </button>
+                </div>
+                <div class="button-row">
+                    <button id="calendar-btn" class="ms-Button ms-Button--primary">
+                        <span class="ms-Button-label">Termin erstellen</span>
+                    </button>
+                    <button id="custom-btn" class="ms-Button ms-Button--primary">
+                        <span class="ms-Button-label">Benutzerdefiniert</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="prompt-section" class="control-section">
+                <h2 class="ms-font-xl">Benutzerdefinierte Anfrage</h2>
+                <textarea id="prompt-input" class="ms-TextField-field" placeholder="Geben Sie Ihre Anfrage an das LLM ein..."></textarea>
+                <button id="send-prompt-btn" class="ms-Button ms-Button--primary">
+                    <span class="ms-Button-label">Senden</span>
+                </button>
+            </div>
+
+            <div id="response-section" class="response-section">
+                <h2 class="ms-font-xl">LLM Antwort</h2>
+                <div id="loading-indicator" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Kommuniziere mit LLM...</p>
+                </div>
+                <div id="response-content" class="response-box">
+                    <p>Hier erscheint die Antwort des LLM...</p>
+                </div>
+                <div class="button-row response-actions" style="display: none;">
+                    <button id="insert-response-btn" class="ms-Button ms-Button--primary">
+                        <span class="ms-Button-label">In E-Mail einfügen</span>
+                    </button>
+                    <button id="copy-response-btn" class="ms-Button">
+                        <span class="ms-Button-label">Kopieren</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="status-section" class="status-section">
+                <div id="status-message" class="status-message"></div>
+                <div id="error-message" class="error-message"></div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
