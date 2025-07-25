@@ -1,0 +1,36 @@
+{
+  "name": "outlook-llm-assistant",
+  "version": "1.0.0",
+  "description": "Ein professionelles Outlook Add-in, das LLM-Funktionalitäten direkt in Microsoft Outlook integriert",
+  "main": "taskpane.html",
+  "scripts": {
+    "start": "office-addin-debugging start manifest.xml",
+    "stop": "office-addin-debugging stop manifest.xml",
+    "validate": "office-addin-manifest validate manifest.xml",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bina165/OutlookLLM-Plugin.git"
+  },
+  "keywords": [
+    "outlook",
+    "add-in",
+    "llm",
+    "ai",
+    "triton",
+    "email",
+    "assistant"
+  ],
+  "author": "Korbinian Sdunek",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bina165/OutlookLLM-Plugin/issues"
+  },
+  "homepage": "https://github.com/bina165/OutlookLLM-Plugin#readme",
+  "devDependencies": {
+    "office-addin-debugging": "^4.3.0",
+    "office-addin-dev-certs": "^1.7.0",
+    "office-addin-manifest": "^1.7.0"
+  }
+}
